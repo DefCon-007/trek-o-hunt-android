@@ -1,11 +1,16 @@
 package trek.visdrotech.com.trek_o_hunt;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import com.google.gson.GsonBuilder;
 
 import trek.visdrotech.com.trek_o_hunt.utils.Utils;
 
@@ -17,6 +22,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences(Utils.HT_QUICK_START_SHARED_PREFS_KEY,
+                Context.MODE_PRIVATE);
+        Boolean loginStatus = sharedPreferences.getBoolean("loginStatus", false);
+        if (loginStatus) {
+            Intent i = new Intent(this,HomePageActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
 
         // If savedinstnacestate is null then replace login fragment
         if (savedInstanceState == null) {

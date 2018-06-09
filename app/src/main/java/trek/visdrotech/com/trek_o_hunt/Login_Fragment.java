@@ -60,7 +60,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
     private static LinearLayout loginLayout;
     private static Animation shakeAnimation;
     private static FragmentManager fragmentManager;
-    public static final String HT_QUICK_START_SHARED_PREFS_KEY = "com.hypertrack.quickstart:SharedPreference";
+//    public static final String HT_QUICK_START_SHARED_PREFS_KEY = "com.hypertrack.quickstart:SharedPreference";
 
     public Login_Fragment() {
 
@@ -183,7 +183,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         String getPassword = password.getText().toString();
 
         // Check patter for email id
-        Pattern p = Pattern.compile(Utils.regEx);
+        Pattern p = Utils.VALID_EMAIL_ADDRESS_REGEX;
 
         Matcher m = p.matcher(getEmailId);
 //        Intent i = new Intent(getActivity(),HomePageActivity.class);
@@ -214,10 +214,11 @@ public class Login_Fragment extends Fragment implements OnClickListener {
     }
 
     private void saveUser(User user) {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(HT_QUICK_START_SHARED_PREFS_KEY,
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Utils.HT_QUICK_START_SHARED_PREFS_KEY,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("user", new GsonBuilder().create().toJson(user));
+        editor.putBoolean("loginStatus", true);
         editor.apply();
     }
 
@@ -237,19 +238,21 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
     public void sendData(String email, String pass){
         RequestParams params = new RequestParams();
-        params.put("email", email);
-        params.put("pass", pass);
-        serverRestClient.post("/register", params, new JsonHttpResponseHandler(){
+        params.put("username", email);
+        params.put("password", pass);
+        serverRestClient.post("trekohunt/login", params, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
 //                Login with our server successful
                 try {
-                    String statusMsg = response.getString("status");
-                    if (statusMsg.equals("success")){
+                    Log.d(LOG_TAG, "In response");
+                    Log.d(LOG_TAG, response.toString());
+                    Integer status = response.getInt("status");
+                    if (status==200){
                         String phone = response.getString("phone");
                         String name = response.getString("name");
-                        String uuid = response.getString(("uuid"));
+                        String uuid = response.getString(("user_id"));
 
                         UserParams userParams = new UserParams().setName(name).setPhone(phone).setUniqueId(uuid);
                         HyperTrack.getOrCreateUser(userParams, new HyperTrackCallback() {
@@ -261,6 +264,8 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                                 Log.d(LOG_TAG,"Login successful");
 //                        User has sucessfully logged in take him to homepage
                                 Intent i = new Intent(getActivity(),HomePageActivity.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                                Bundle b = new Bundle();
 //                                b.putString("name","name");
 //                                b.putString("phone","phone");
@@ -296,6 +301,22 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                 }
 
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(LOG_TAG,errorResponse.toString());
+                new CustomToast().Show_Toast(getActivity(), view,
+                        getString(R.string.login_fail));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                new CustomToast().Show_Toast(getActivity(), view,
+                        getString(R.string.login_fail));
+            }
+
+
         });
 
     }

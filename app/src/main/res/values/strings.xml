@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Trek-O-Hunt</string>
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
 
     #Login signup
     <string name="hello_world">Hello world!</string>
@@ -33,7 +34,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="location_permisssion_denied">Location permission denied</string>
 
-
+    <!--Singup -->
+    <string name="sign_up_error">Some error occured, try again!</string>
     #HomePage
     <string name="enable_location_settings">Location service are needed to continue</string>
+
+    #Network Issue
+    <string name="network_issue">Some network error occured please try again </string>
 </resources>
