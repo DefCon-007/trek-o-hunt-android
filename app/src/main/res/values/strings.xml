@@ -39,6 +39,27 @@
     #HomePage
     <string name="enable_location_settings">Location service are needed to continue</string>
 
+
     #Network Issue
     <string name="network_issue">Some network error occured please try again </string>
+
+
+    <string-array name="images">
+        <item>https://imgcld.yatra.com/ytimages/image/upload/t_ann_trip_banner_tab/v1517481371/AdvNation/ANN_TRP287/ann_banner_1_Mullayanagiri_Trek_dV6JC8.jpg</item>
+        <item>https://www.holidify.com/images/compressed/4107.jpg</item>
+        <item>https://againstthecompass.com/wp-content/uploads/2017/07/trekking-kyrgyzstan-1-1024x684.jpg</item>
+        <item>http://www.trekkinginuttarakhand.com/image/slider/valley-of-flower1.jpg</item>
+        <item>https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqCxi6ENehEeeYZ_mh5F3m9144BnT-ukN9sKlqmuS_l0Am8_t0</item>
+        <item>http://www.kashmirhills.com/wp-content/uploads/2015/02/Trekking-Gulmarg.jpg</item>
+        <item>https://static2.tripoto.com/media/filter/nl/img/364836/TripDocument/1490868353_dsc_0211.jpg</item>
+        <item>https://bala-dtravelbug.weebly.com/uploads/9/7/9/3/9793526/8488550_orig.jpg</item>
+    </string-array>
+    <string-array name="names">
+        <item>Livin’ on the Edge, Mullayanagiri</item>
+        <item>Secrets of a Rainforest, Agumbe</item>
+        <item>Beyond the horizon, Kodachadri</item>
+        <item>Backwaters of Allepey</item>
+        <item>Call of the winds, Agumbe</item>
+        <item>Coorg</item>
+    </string-array>
 </resources>

@@ -21,22 +21,22 @@ public class Trek {
     String longitude;
     String elevation;
     String transportMeans;
+    String checkList;
+    String thingsToNote;
+    double price;
 
 
     public Trek()
     {
-
+        images = new ArrayList<>();
+        treasureHuntImages = new ArrayList<>();
     }
 
     public Trek(JSONObject jsonObject) throws JSONException
     {
-        setName(jsonObject.getString("name"));
-        setImgUrl(jsonObject.getString("img_url"));
-        setImgUrl(jsonObject.getString("img_url"));
-        setImgUrl(jsonObject.getString("img_url"));
     }
 
-    public Trek(String name, String imgUrl, String statucImgUrl, ArrayList<String> images, ArrayList<String> treasureHuntImages, int rating, TrekDifficulty difficulty, String about, String latitude, String longitude, String elevation, String transportMeans) {
+    public Trek(String name, String imgUrl, String statucImgUrl, ArrayList<String> images, ArrayList<String> treasureHuntImages, int rating, TrekDifficulty difficulty, String about, String latitude, String longitude, String elevation, String transportMeans, String checkList) {
         this.name = name;
         this.imgUrl = imgUrl;
         this.staticImgUrl = statucImgUrl;
@@ -49,6 +49,7 @@ public class Trek {
         this.longitude = longitude;
         this.elevation = elevation;
         this.transportMeans = transportMeans;
+        this.checkList = checkList;
     }
 
     public String getName() {
@@ -81,6 +82,10 @@ public class Trek {
 
     public void setImages(ArrayList<String> images) {
         this.images = images;
+    }
+
+    public void addImages(String url) {
+        this.images.add(url);
     }
 
     public ArrayList<String> getTreasureHuntImages() {
@@ -145,6 +150,31 @@ public class Trek {
 
     public void setTransportMeans(String transportMeans) {
         this.transportMeans = transportMeans;
+    }
+
+    public String getCheckList() {
+        return checkList;
+    }
+
+    public void setCheckList(String checkList) {
+        this.checkList = checkList;
+    }
+
+    public String getThingsToNote() {
+        return thingsToNote;
+    }
+
+    public void setThingsToNote(String thingsToNote) {
+        this.thingsToNote = thingsToNote;
+    }
+
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
 

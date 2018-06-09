@@ -9,8 +9,10 @@
     tools:showIn="@layout/app_bar_home_page">
 
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:weightSum="2"
         android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
@@ -21,13 +23,15 @@
         />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvTop"
+        android:layout_weight="1"
         android:scrollbars="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
+        android:layout_height="0dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="Top in your area"
         android:textStyle="bold"
         android:padding="12dp"
@@ -36,8 +40,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvTopInRegion"
         android:scrollbars="horizontal"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
+        android:layout_height="0dp"/>
 
 
     </LinearLayout>
