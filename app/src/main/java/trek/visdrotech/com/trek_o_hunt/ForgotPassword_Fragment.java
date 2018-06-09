@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import trek.visdrotech.com.trek_o_hunt.utils.CustomToast;
+import trek.visdrotech.com.trek_o_hunt.utils.Utils;
 
 public class ForgotPassword_Fragment extends Fragment implements
         OnClickListener {
@@ -45,7 +47,7 @@ public class ForgotPassword_Fragment extends Fragment implements
         back = (TextView) view.findViewById(R.id.backToLoginBtn);
 
         // Setting text selector over textviews
-        XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        XmlResourceParser xrp = getResources().getXml(R.xml.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);

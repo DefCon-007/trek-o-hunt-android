@@ -1,4 +1,4 @@
-package trek.visdrotech.com.trek_o_hunt;
+package trek.visdrotech.com.trek_o_hunt.utils;
 
 
 import android.app.Application;

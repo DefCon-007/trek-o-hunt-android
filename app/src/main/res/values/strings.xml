@@ -27,5 +27,13 @@
     #Login
     <string name="email_invalid">Your Email Id is Invalid.</string>
     <string name="login_fail">Login failed! Try again later</string>
+    <string name="title_activity_home_page">HomePageActivity</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="location_permisssion_denied">Location permission denied</string>
+
+
+    #HomePage
+    <string name="enable_location_settings">Location service are needed to continue</string>
 </resources>

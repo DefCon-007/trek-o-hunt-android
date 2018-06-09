@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import trek.visdrotech.com.trek_o_hunt.utils.CustomToast;
+import trek.visdrotech.com.trek_o_hunt.utils.Utils;
+
 public class SignUp_Fragment extends Fragment implements OnClickListener {
     private static View view;
     private static EditText fullName, emailId, mobileNumber, location,
@@ -51,7 +54,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
         terms_conditions = (CheckBox) view.findViewById(R.id.terms_conditions);
 
         // Setting text selector over textviews
-        XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        XmlResourceParser xrp = getResources().getXml(R.xml.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);

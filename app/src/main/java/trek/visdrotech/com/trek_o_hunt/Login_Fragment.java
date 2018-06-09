@@ -5,11 +5,15 @@ package trek.visdrotech.com.trek_o_hunt;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
@@ -25,19 +29,26 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.*;
+import com.google.gson.GsonBuilder;
+import com.hypertrack.lib.HyperTrack;
+import com.hypertrack.lib.callbacks.HyperTrackCallback;
+import com.hypertrack.lib.models.ErrorResponse;
+import com.hypertrack.lib.models.SuccessResponse;
+import com.hypertrack.lib.models.User;
+import com.hypertrack.lib.models.UserParams;
 import com.loopj.android.http.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import trek.visdrotech.com.trek_o_hunt.utils.*;
 
 public class Login_Fragment extends Fragment implements OnClickListener {
     private static View view;
@@ -49,6 +60,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
     private static LinearLayout loginLayout;
     private static Animation shakeAnimation;
     private static FragmentManager fragmentManager;
+    public static final String HT_QUICK_START_SHARED_PREFS_KEY = "com.hypertrack.quickstart:SharedPreference";
 
     public Login_Fragment() {
 
@@ -81,7 +93,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                 R.anim.shake);
 
         // Setting text selector over textviews
-        XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        XmlResourceParser xrp = getResources().getXml(R.xml.text_selector);
         try {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);
@@ -174,7 +186,13 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         Pattern p = Pattern.compile(Utils.regEx);
 
         Matcher m = p.matcher(getEmailId);
-
+//        Intent i = new Intent(getActivity(),HomePageActivity.class);
+//        Bundle b = new Bundle();
+//        b.putString("name","name");
+//        b.putString("phone","phone");
+//        b.putString("uuid","uuid");
+//        i.putExtras(b);
+//        startActivity(i);
         // Check for both field is empty or not
         if (getEmailId.equals("") || getEmailId.length() == 0
                 || getPassword.equals("") || getPassword.length() == 0) {
@@ -195,7 +213,29 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
     }
 
-public void sendData(String email, String pass){
+    private void saveUser(User user) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(HT_QUICK_START_SHARED_PREFS_KEY,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", new GsonBuilder().create().toJson(user));
+        editor.apply();
+    }
+
+    private void checkForLocationSettings() {
+        // Check for Location permission
+        if (!HyperTrack.checkLocationPermission(getActivity())) {
+            HyperTrack.requestPermissions(getActivity());
+            return;
+        }
+
+        // Check for Location settings
+        if (!HyperTrack.checkLocationServices(getActivity())) {
+            HyperTrack.requestLocationServices(getActivity());
+        }
+    }
+
+
+    public void sendData(String email, String pass){
         RequestParams params = new RequestParams();
         params.put("email", email);
         params.put("pass", pass);
@@ -203,11 +243,45 @@ public void sendData(String email, String pass){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+//                Login with our server successful
                 try {
                     String statusMsg = response.getString("status");
                     if (statusMsg.equals("success")){
-                        Log.d(LOG_TAG,"Login successful");
+                        String phone = response.getString("phone");
+                        String name = response.getString("name");
+                        String uuid = response.getString(("uuid"));
+
+                        UserParams userParams = new UserParams().setName(name).setPhone(phone).setUniqueId(uuid);
+                        HyperTrack.getOrCreateUser(userParams, new HyperTrackCallback() {
+                            @Override
+                            public void onSuccess(@NonNull SuccessResponse successResponse) {
+//                                Hypertrack object found
+                                User user = (User) successResponse.getResponseObject();
+                                saveUser(user);
+                                Log.d(LOG_TAG,"Login successful");
 //                        User has sucessfully logged in take him to homepage
+                                Intent i = new Intent(getActivity(),HomePageActivity.class);
+//                                Bundle b = new Bundle();
+//                                b.putString("name","name");
+//                                b.putString("phone","phone");
+//                                b.putString("uuid","uuid");
+//                                i.putExtras(b);
+                                startActivity(i);
+
+                            }
+
+                            @Override
+                            public void onError(@NonNull ErrorResponse errorResponse) {
+//                                    Some error occured
+                                new CustomToast().Show_Toast(getActivity(), view,
+                                        R.string.login_fail
+                                                + " " + errorResponse.getErrorMessage());
+//                                Toast.makeText(getActivity(), R.string.login_fail
+//                                                + " " + errorResponse.getErrorMessage(),
+//                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
 
 
                     }
@@ -225,6 +299,49 @@ public void sendData(String email, String pass){
         });
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions,
+                grantResults);
+
+        if (requestCode == HyperTrack.REQUEST_CODE_LOCATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0]
+                    == PackageManager.PERMISSION_GRANTED) {
+                // Check if Location Settings are enabled to proceed
+                checkForLocationSettings();
+
+            } else {
+                // Handle Location Permission denied error
+                new CustomToast().Show_Toast(getActivity(), view,
+                        getString(R.string.location_permisssion_denied));
+//                Toast.makeText(this, "Location Permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == HyperTrack.REQUEST_CODE_LOCATION_SERVICES) {
+            if (resultCode == Activity.RESULT_OK) {
+                // Check if Location Settings are enabled to proceed
+                checkForLocationSettings();
+
+            } else {
+                // Handle Enable Location Services request denied error
+                new CustomToast().Show_Toast(getActivity(), view,
+                        getString(R.string.enable_location_settings));
+//                Toast.makeText(this, R.string.enable_location_settings, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 }
 //    public void sendData(String email, String pass) {
 //        RequestParams params = new RequestParams();
@@ -324,3 +441,5 @@ public void sendData(String email, String pass){
 //    }
 //
 //}
+
+
