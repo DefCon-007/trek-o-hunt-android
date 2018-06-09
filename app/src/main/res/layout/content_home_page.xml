@@ -8,4 +8,37 @@
     tools:context="trek.visdrotech.com.trek_o_hunt.HomePageActivity"
     tools:showIn="@layout/app_bar_home_page">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Our Top Picks"
+        android:textStyle="bold"
+        android:padding="12dp"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvTop"
+        android:scrollbars="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Top in your area"
+        android:textStyle="bold"
+        android:padding="12dp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvTopInRegion"
+        android:scrollbars="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
