@@ -6,12 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-
     tools:context="trek.visdrotech.com.trek_o_hunt.CreateNewTrek">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 <LinearLayout
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:gravity="center_vertical |center_horizontal"
+    android:gravity="center"
     android:layout_height="match_parent">
     <Button
         android:id="@+id/but_start"
@@ -37,14 +41,151 @@
         android:text="Stop"
       />
 
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/llUpdate"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/email"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="Enter Name for Trek"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/half_black"
+        android:textSize="16sp" />
+
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/email"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="Add Description"
+        android:inputType="text"
+        android:minHeight="200dp"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/half_black"
+        android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etCheckList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/email"
+            android:drawablePadding="8dp"
+            android:minHeight="200dp"
+            android:gravity="center_vertical"
+            android:hint="Add CheckList"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/half_black"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/etThings"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:background="@android:color/transparent"
+            
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Things to note"
+            android:inputType="text"
+            android:minHeight="200dp"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/half_black"
+            android:textSize="16sp" />
+
+        <RatingBar
+            android:id="@+id/rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorPrimary"
+            android:max="5"
+            android:layout_below="@+id/rvTop"
+            android:layout_alignRight="@+id/rvTop"
+            />
+
+        <RadioGroup
+            android:id="@+id/rgDiffulty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rbEasy"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:text="Easy"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/rbMedium"
+                android:layout_width="wrap_content"
+                android:text="Medium"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/rbDifficult"
+                android:layout_width="wrap_content"
+                android:text="Difficult"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/rbExtreme"
+                android:layout_width="wrap_content"
+                android:text="Extreme"
+                android:layout_height="wrap_content" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/email"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Price in $"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/half_black"
+            android:textSize="16sp" />
+        <Button
         android:id="@+id/but_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Upload Data"
-        android:visibility="gone"
         />
+    </LinearLayout>
+
 </LinearLayout>
+    </ScrollView>
 <android.support.design.widget.FloatingActionButton
     android:id="@+id/fab"
     android:src="@android:drawable/ic_menu_camera"

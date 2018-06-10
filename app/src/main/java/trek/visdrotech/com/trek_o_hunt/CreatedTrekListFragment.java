@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 import trek.visdrotech.com.trek_o_hunt.utils.RecyclerAdapter;
 
-public class BoughtTrekListFragment extends Fragment{
+public class CreatedTrekListFragment extends Fragment{
 
     public static ArrayList<Trek> treks;
 
-    public BoughtTrekListFragment() {
+    public CreatedTrekListFragment() {
     }
 
     @Override

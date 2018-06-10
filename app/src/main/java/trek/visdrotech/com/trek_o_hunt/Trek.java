@@ -7,8 +7,9 @@ import java.util.ArrayList;
 
 public class Trek {
 
-    enum TrekDifficulty {EASY, MEDIUM, DIFFICULT};
+    enum TrekDifficulty {EASY, MEDIUM, DIFFICULT, EXTREME};
 
+    int id;
     String name;
     String imgUrl;
     String staticImgUrl;
@@ -110,6 +111,21 @@ public class Trek {
         return difficulty;
     }
 
+    public String getDifficultyStr() {
+        switch (getDifficulty())
+        {
+            case EASY:
+                return "Easy";
+            case MEDIUM:
+                return "Medium";
+            case DIFFICULT:
+                return "Difficult";
+            case EXTREME:
+                return "Extreme";
+        }
+        return "";
+    }
+
     public void setDifficulty(TrekDifficulty difficulty) {
         this.difficulty = difficulty;
     }
@@ -198,6 +214,14 @@ public class Trek {
 
     public void setTimeMins(int timeMins) {
         this.timeMins = timeMins;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

@@ -1,6 +1,7 @@
 package trek.visdrotech.com.trek_o_hunt;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class TrekDescriptionFragment extends Fragment{
 
     public static Trek trek;
     public static boolean boughtTrek;
+    public static boolean createdTrek;
 
     public TrekDescriptionFragment() {
 
@@ -50,19 +52,32 @@ public class TrekDescriptionFragment extends Fragment{
         ((TextView)view.findViewById(R.id.tvAbout)).setText(trek.getAbout());
         ((TextView)view.findViewById(R.id.tvChecklist)).setText(trek.getCheckList());
         ((TextView)view.findViewById(R.id.tvThingsTodo)).setText(trek.getThingsToNote());
-        ((TextView)view.findViewById(R.id.tvDifficulty)).setText(trek.getDifficulty().toString());
+        ((TextView)view.findViewById(R.id.tvDifficulty)).setText(trek.getDifficultyStr());
         ((RatingBar)view.findViewById(R.id.rb)).setRating((float)trek.getRating());
-        ((TextView)view.findViewById(R.id.bBuyNow)).setText("Buy Now ( $"+trek.getPrice()+" )");
         ((TextView)view.findViewById(R.id.tvDistance)).setText(trek.getDistance()+" KM");
         ((TextView)view.findViewById(R.id.tvTime)).setText(trek.getTimeStr());
+        TextView tvBuy = (TextView)view.findViewById(R.id.bBuyNow);
+        tvBuy.setText("Buy Now ( $"+trek.getPrice()+" )");
+
+        if(BoughtTrekListFragment.treks.contains(trek))
+        {
+            tvBuy.setText("Purchased!");
+            tvBuy.setEnabled(false);
+            tvBuy.setBackgroundColor(Color.parseColor("#888888"));
+        }
 
         view.findViewById(R.id.bBuyNow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!boughtTrek) {
                     Toast.makeText(getActivity(), "Purchased successfully!", Toast.LENGTH_SHORT).show();
-                    BoughtTrekListFragment.treks = new ArrayList<>();
+                    if(BoughtTrekListFragment.treks == null) {
+                        BoughtTrekListFragment.treks = new ArrayList<>();
+                    }
                     BoughtTrekListFragment.treks.add(trek);
+                    ((TextView) v).setText("Purchased!");
+                    v.setEnabled(false);
+                    v.setBackgroundColor(Color.parseColor("#888888"));
                 }
             }
         });
@@ -70,7 +85,20 @@ public class TrekDescriptionFragment extends Fragment{
 
         if(boughtTrek)
         {
-            ((TextView)view.findViewById(R.id.bBuyNow)).setText("Start Trek");
+            tvBuy.setText("Start Trek");
+            view.findViewById(R.id.tvMapHead).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.tvChecklistHead).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.tvChecklist).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.iv).setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load(trek.getStaticImgUrl())
+                    .placeholder(R.drawable.img_trek_1)
+                    .error(R.drawable.img_trek_2)
+                    .into((ImageView)view.findViewById(R.id.iv));
+        }
+        else if(createdTrek)
+        {
+            tvBuy.setText("Your trek price : $" + trek.getPrice());
             view.findViewById(R.id.tvMapHead).setVisibility(View.VISIBLE);
             view.findViewById(R.id.tvChecklistHead).setVisibility(View.VISIBLE);
             view.findViewById(R.id.tvChecklist).setVisibility(View.VISIBLE);
@@ -82,14 +110,13 @@ public class TrekDescriptionFragment extends Fragment{
                     .into((ImageView)view.findViewById(R.id.iv));
         }
 
-
-
-
-
-
-
-
-
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Home");
+    }
+
 
 }

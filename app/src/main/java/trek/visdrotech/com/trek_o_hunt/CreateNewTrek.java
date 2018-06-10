@@ -1,27 +1,27 @@
 package trek.visdrotech.com.trek_o_hunt;
 
+import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.Toast;
-import android.Manifest;
 
 import com.hypertrack.lib.HyperTrack;
 import com.hypertrack.lib.callbacks.HyperTrackCallback;
@@ -30,9 +30,7 @@ import com.hypertrack.lib.models.SuccessResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-
-import static android.graphics.BitmapFactory.decodeFile;
+import java.util.ArrayList;
 
 public class CreateNewTrek extends AppCompatActivity  implements View.OnClickListener{
     private Button start,pause,stop,upload;
@@ -41,7 +39,12 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
     private static final int REQUEST_CAMERA = 2;
     private static final int MY_PERMISSIONS_REQUEST = 12;
     private Location currentLocation;
-    final String[] items = new String[]{"Camera", "Cancel"};
+
+    private EditText etName, etDescription, etCheckList, etThingsToDo, etPrice;
+    RatingBar rb;
+    RadioGroup rgDifficulty;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,15 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
         stop = (Button) findViewById(R.id.but_stop);
         pause = (Button) findViewById(R.id.but_pause);
         upload = (Button) findViewById(R.id.but_upload);
+        rgDifficulty = (RadioGroup) findViewById(R.id.rgDiffulty);
+        rb = (RatingBar) findViewById(R.id.rb);
+        etName = (EditText) findViewById(R.id.etName);
+        etDescription = (EditText) findViewById(R.id.etDescription);
+        etCheckList = (EditText) findViewById(R.id.etCheckList);
+        etThingsToDo = (EditText) findViewById(R.id.etThings);
+        etPrice = (EditText) findViewById(R.id.etPrice);
+
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         start.setOnClickListener(this);
         stop.setOnClickListener(this);
@@ -92,18 +104,56 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
                 Toast.makeText(this,"Location tracking stopped !",Toast.LENGTH_SHORT).show();
                 start.setEnabled(false);
                 pause.setEnabled(false);
+                fab.setVisibility(View.GONE);
+                start.setVisibility(View.GONE);
+                stop.setVisibility(View.GONE);
+                pause.setVisibility(View.GONE);
                 stop.setEnabled(true);
-                upload.setVisibility(View.VISIBLE);
+                findViewById(R.id.llUpdate).setVisibility(View.VISIBLE);
                 HyperTrack.pauseTracking();
                 break;
             case R.id.but_upload :
-                Toast.makeText(this,"Uploading your trek to the servers. Please wait",Toast.LENGTH_SHORT).show();
-                start.setEnabled(true);
-                start.setText("Start");
-                pause.setEnabled(false);
-                stop.setEnabled(false);
-                upload.setVisibility(View.GONE);
-                HyperTrack.pauseTracking();
+
+                if(validateData())
+                {
+                    Toast.makeText(this,"Uploading your trek to the servers. Please wait",Toast.LENGTH_SHORT).show();
+                    Trek trek = new Trek();
+                    trek.setName(etName.getText().toString());
+                    trek.setAbout(etDescription.getText().toString());
+                    trek.setCheckList(etCheckList.getText().toString());
+                    trek.setThingsToNote(etThingsToDo.getText().toString());
+                    trek.setRating(rb.getRating());
+                    switch (rgDifficulty.getCheckedRadioButtonId())
+                    {
+                        case R.id.rbEasy:
+                            trek.setDifficulty(Trek.TrekDifficulty.EASY);
+                            break;
+                        case R.id.rbMedium:
+                            trek.setDifficulty(Trek.TrekDifficulty.MEDIUM);
+                            break;
+                        case R.id.rbDifficult:
+                            trek.setDifficulty(Trek.TrekDifficulty.DIFFICULT);
+                            break;
+                        case R.id.rbExtreme:
+                            trek.setDifficulty(Trek.TrekDifficulty.EXTREME);
+                            break;
+                    }
+                    trek.setDistance(5.3);
+                    trek.setTimeMins(110);
+                    trek.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                    trek.addImages(getResources().getStringArray(R.array.images)[4]);
+                    trek.addImages(getResources().getStringArray(R.array.images)[6]);
+                    trek.addImages(getResources().getStringArray(R.array.images)[7]);
+                    trek.setStaticImgUrl("http://www.team-bhp.com/forum/attachments/route-travel-queries/615356d1317042469-weekend-trip-chikmagalur-ckm.png");
+
+                    if(CreatedTrekListFragment.treks == null)
+                    {
+                        CreatedTrekListFragment.treks = new ArrayList<>();
+                    }
+                    CreatedTrekListFragment.treks.add(trek);
+                    finish();
+                }
+
                 break;
             case R.id.fab :
                 getPermissions();
@@ -111,38 +161,20 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
         }
     }
 
+    private boolean validateData()
+    {
+        return (etName.getText().length() > 0 &&
+                etDescription.getText().length() > 0 &&
+                etCheckList.getText().length() > 0 &&
+                etThingsToDo.getText().length() > 0 &&
+                etPrice.getText().length() > 0 &&
+                rb.getRating() > 0);
+    }
+
 
     public void imagePicker() {
-//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//        photoPickerIntent.setType("image/*");
-//        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-
-
-        new AlertDialog.Builder(CreateNewTrek.this).setTitle("Capture a new image")
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (items[item].equals("Camera")) {
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, REQUEST_CAMERA);
-                        } else if (items[item].equals("Gallery")) {
-                            if (Build.VERSION.SDK_INT <= 19) {
-                                Intent intent = new Intent();
-                                intent.setType("image/*");
-                                intent.setAction(Intent.ACTION_GET_CONTENT);
-                                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-                            } else if (Build.VERSION.SDK_INT > 19) {
-                                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-                            }
-                        } else if (items[item].equals("Cancel")) {
-                            dialog.dismiss();
-                        } else {
-                            Log.d("Create new trek", "Some error occured in the alert dialog on image picker function");
-                        }
-                    }
-                }).show();
-
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
     }
 
     private void getPermissions() {

@@ -28,7 +28,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         private final CardView cv;
-        private final TextView tvName;
+        private final TextView tvName, tvRating, tvDistance, tvTime, tvDifficulty;
         private final ImageView ivBackground;
 
         public ViewHolder(View view) {
@@ -36,6 +36,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             cv = (CardView) view.findViewById(R.id.cv);
             tvName = (TextView) view.findViewById(R.id.tvTrekName);
             ivBackground = (ImageView) view.findViewById(R.id.ivBackground);
+            tvDifficulty = (TextView)view.findViewById(R.id.tvDifficulty);
+            tvRating = (TextView)view.findViewById(R.id.tvRating);
+            tvDistance = (TextView)view.findViewById(R.id.tvDistance);
+            tvTime = (TextView)view.findViewById(R.id.tvTime);
 
         }
 
@@ -43,6 +47,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         {
             return tvName;
         }
+
+        public TextView getTvRating() {
+            return tvRating;
+        }
+
+        public TextView getTvDistance() {
+            return tvDistance;
+        }
+
+        public TextView getTvTime() {
+            return tvTime;
+        }
+
+        public TextView getTvDifficulty() {
+            return tvDifficulty;
+        }
+
         public ImageView getIvBackground()
         {
             return ivBackground;
@@ -71,6 +92,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.getTvName().setText(mDataset.get(position).getName());
+        holder.getTvDifficulty().setText(mDataset.get(position).getDifficultyStr() + "");
+        holder.getTvRating().setText(mDataset.get(position).getRating() + "/5.0");
+        holder.getTvDistance().setText(mDataset.get(position).getDistance()+" KM");
+        holder.getTvTime().setText(mDataset.get(position).getTimeStr());
+
         Picasso.get()
                 .load(mDataset.get(position).getImgUrl())
                 .placeholder(R.drawable.img_trek_1)

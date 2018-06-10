@@ -15,8 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -34,8 +32,8 @@ public class HomePageActivity extends AppCompatActivity
     private RecyclerView rvTopPicks, rvRegion;
     private RecyclerView.Adapter adapterTop, adapterRegion;
     private RecyclerView.LayoutManager layoutManagerTop, layoutManagerRegion;
-
-
+    public static ArrayList<Trek> treks;
+    public static ArrayList<Trek> treks2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +220,16 @@ public class HomePageActivity extends AppCompatActivity
            Intent i = new Intent(this,CreateNewTrek.class);
            startActivity(i);
         } else if (id == R.id.nav_gallery) {
+            if(CreatedTrekListFragment.treks == null)
+            {
+                CreatedTrekListFragment.treks = new ArrayList<>();
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout, new CreatedTrekListFragment()).addToBackStack("").commit();
+        } else if (id == R.id.boughtTreks) {
+            if(BoughtTrekListFragment.treks == null)
+            {
+                BoughtTrekListFragment.treks = new ArrayList<>();
+            }
             getSupportFragmentManager().beginTransaction().replace(R.id.layout, new BoughtTrekListFragment()).addToBackStack("").commit();
         } else if (id == R.id.nav_start_clean_drive) {
 

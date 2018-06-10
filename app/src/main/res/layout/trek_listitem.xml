@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_marginRight="6dp"
     android:layout_marginLeft="6dp"
-    android:layout_height="wrap_content"
+    android:minHeight="300dp"
+    android:layout_height="match_parent"
     android:id="@+id/cv">
 
     <RelativeLayout
@@ -29,7 +30,7 @@
         android:id="@+id/tvTrekName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/layoutlistitem"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
@@ -39,6 +40,107 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/white"
         android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:weightSum="3"
+            android:gravity="center"
+            android:background="@color/black_semi_transparent"
+            android:id="@+id/layoutlistitem"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_difficult"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:id="@+id/tvDifficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_star"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:id="@+id/tvRating"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_distance"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:id="@+id/tvDistance"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:adjustViewBounds="true"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_time"/>
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_width="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+
 
     </RelativeLayout>
 
