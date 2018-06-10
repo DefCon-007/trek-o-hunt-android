@@ -52,7 +52,9 @@ public class TrekDescriptionFragment extends Fragment{
         ((TextView)view.findViewById(R.id.tvThingsTodo)).setText(trek.getThingsToNote());
         ((TextView)view.findViewById(R.id.tvDifficulty)).setText(trek.getDifficulty().toString());
         ((RatingBar)view.findViewById(R.id.rb)).setRating((float)trek.getRating());
-
+        ((TextView)view.findViewById(R.id.bBuyNow)).setText("Buy Now ( $"+trek.getPrice()+" )");
+        ((TextView)view.findViewById(R.id.tvDistance)).setText(trek.getDistance()+" KM");
+        ((TextView)view.findViewById(R.id.tvTime)).setText(trek.getTimeStr());
 
         view.findViewById(R.id.bBuyNow).setOnClickListener(new View.OnClickListener() {
             @Override

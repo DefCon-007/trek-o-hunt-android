@@ -135,8 +135,10 @@ public class HomePageActivity extends AppCompatActivity
 //        serverRestClient.get("http://104.199.139.155:8000/trekohunt/get_local_treks",paramsArea, handlerArea);
 
         ArrayList<Trek> treks = generateData();
+        ArrayList<Trek> treks2 = generateData();
         adapterRegion = new RecyclerAdapter(treks, this);
-        adapterTop = new RecyclerAdapter(treks, this);
+        treks2.remove(0);
+        adapterTop = new RecyclerAdapter(treks2, this);
         rvTopPicks.setAdapter(adapterTop);
         rvRegion.setAdapter(adapterRegion);
 
@@ -172,6 +174,8 @@ public class HomePageActivity extends AppCompatActivity
             trek.addImages(getResources().getStringArray(R.array.images)[6]);
             trek.addImages(getResources().getStringArray(R.array.images)[7]);
             trek.setRating(3.5);
+            trek.setDistance(10.5);
+            trek.setTimeMins(270);
             trek.setStaticImgUrl("http://www.team-bhp.com/forum/attachments/route-travel-queries/615356d1317042469-weekend-trip-chikmagalur-ckm.png");
             treks.add(trek);
         }

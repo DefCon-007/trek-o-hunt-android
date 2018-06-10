@@ -24,6 +24,8 @@ public class Trek {
     String checkList;
     String thingsToNote;
     double price;
+    double distance;
+    int timeMins;
 
 
     public Trek()
@@ -175,6 +177,27 @@ public class Trek {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public int getTimeMins() {
+        return timeMins;
+    }
+
+    public String getTimeStr()
+    {
+        return (timeMins/60 + ":"+ timeMins%60);
+    }
+
+    public void setTimeMins(int timeMins) {
+        this.timeMins = timeMins;
     }
 }
 
