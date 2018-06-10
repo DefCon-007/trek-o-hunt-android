@@ -233,7 +233,12 @@ public class HomePageActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.layout, new BoughtTrekListFragment()).addToBackStack("").commit();
         } else if (id == R.id.nav_start_clean_drive) {
 
-        } else if (id == R.id.nav_join_clean_drive) {
+        }else if(id == R.id.nav_home){
+            Intent i = new Intent(this,HomePageActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+        }
+        else if (id == R.id.nav_join_clean_drive) {
 
         }else if(id == R.id.nav_report_filth){
 
