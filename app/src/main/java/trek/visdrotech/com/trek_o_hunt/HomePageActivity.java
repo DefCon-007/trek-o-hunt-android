@@ -31,8 +31,6 @@ import trek.visdrotech.com.trek_o_hunt.utils.Utils;
 public class HomePageActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    FloatingActionButton fab1, fab2, fab3;
-
     private RecyclerView rvTopPicks, rvRegion;
     private RecyclerView.Adapter adapterTop, adapterRegion;
     private RecyclerView.LayoutManager layoutManagerTop, layoutManagerRegion;
@@ -48,11 +46,11 @@ public class HomePageActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         TrekDescriptionFragment.boughtTrek = false;
 
-
-        FloatingActionsMenu fab = (FloatingActionsMenu) findViewById(R.id.fabMenu);
-        fab1 = (FloatingActionButton) findViewById(R.id.fabStartTrek);
-        fab2 = (FloatingActionButton) findViewById(R.id.fabPauseTrek);
-        fab3 = (FloatingActionButton) findViewById(R.id.fabStopTrek);
+//
+//        FloatingActionsMenu fab = (FloatingActionsMenu) findViewById(R.id.fabMenu);
+//        fab1 = (FloatingActionButton) findViewById(R.id.fabStartTrek);
+//        fab2 = (FloatingActionButton) findViewById(R.id.fabPauseTrek);
+//        fab3 = (FloatingActionButton) findViewById(R.id.fabStopTrek);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

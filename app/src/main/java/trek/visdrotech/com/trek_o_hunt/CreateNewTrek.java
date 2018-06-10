@@ -118,7 +118,7 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
 //        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 
 
-        new AlertDialog.Builder(CreateNewTrek.this).setTitle("Capture or select a image")
+        new AlertDialog.Builder(CreateNewTrek.this).setTitle("Capture a new image")
                 .setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         if (items[item].equals("Camera")) {
