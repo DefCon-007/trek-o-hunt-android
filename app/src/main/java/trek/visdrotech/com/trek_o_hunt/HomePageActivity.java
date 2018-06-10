@@ -43,7 +43,10 @@ public class HomePageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
+        TrekDescriptionFragment.boughtTrek = false;
+
 
         FloatingActionsMenu fab = (FloatingActionsMenu) findViewById(R.id.fabMenu);
         fab1 = (FloatingActionButton) findViewById(R.id.fabStartTrek);
@@ -164,9 +167,11 @@ public class HomePageActivity extends AppCompatActivity
                     "- Cash and ATMs: The nearest city to Attigundi is Chickmagaluru. Although there are ATMs in Chickmagaluru, please do carry adequate cash for emergencies.\n" +
                     "- Leave your pre-conceived notions behind, travel with an open mind, and you’ll be pleasantly surprised with what you find.");
             trek.setPrice(500);
-            trek.addImages(getResources().getStringArray(R.array.images)[0]);
+            trek.addImages(getResources().getStringArray(R.array.images)[i]);
             trek.addImages(getResources().getStringArray(R.array.images)[6]);
             trek.addImages(getResources().getStringArray(R.array.images)[7]);
+            trek.setRating(3.5);
+            trek.setStaticImgUrl("http://www.team-bhp.com/forum/attachments/route-travel-queries/615356d1317042469-weekend-trip-chikmagalur-ckm.png");
             treks.add(trek);
         }
         return treks;
@@ -197,11 +202,7 @@ public class HomePageActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        else if (id == R.id.action_logout) {
+        if (id == R.id.action_logout) {
             Utils.logout(this);
         }
 
@@ -217,7 +218,7 @@ public class HomePageActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.layout, new BoughtTrekListFragment()).addToBackStack("").commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -232,4 +233,5 @@ public class HomePageActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

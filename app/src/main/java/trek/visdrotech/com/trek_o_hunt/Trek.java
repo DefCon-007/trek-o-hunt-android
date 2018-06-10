@@ -14,7 +14,7 @@ public class Trek {
     String staticImgUrl;
     ArrayList<String> images;
     ArrayList<String> treasureHuntImages;
-    int rating;
+    double rating;
     TrekDifficulty difficulty;
     String about;
     String latitude;
@@ -96,11 +96,11 @@ public class Trek {
         this.treasureHuntImages = treasureHuntImages;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
