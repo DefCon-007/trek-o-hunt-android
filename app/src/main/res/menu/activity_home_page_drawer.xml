@@ -13,13 +13,18 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="My Treks" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:id="@+id/nav_start_clean_drive"
+            android:icon="@drawable/ic_flower"
             android:title="Start Cleanliness drive" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_join_clean_drive"
+            android:icon="@drawable/ic_location_on"
+            android:title="Join Cleaniliness drive" />
+        <item
+            android:id="@+id/nav_report_filth"
+            android:icon="@drawable/ic_camera"
+            android:title="Report filth on trek" />
+
     </group>
 
     <item android:title="Communicate">

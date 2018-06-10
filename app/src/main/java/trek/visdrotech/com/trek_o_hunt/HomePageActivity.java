@@ -223,11 +223,13 @@ public class HomePageActivity extends AppCompatActivity
            startActivity(i);
         } else if (id == R.id.nav_gallery) {
             getSupportFragmentManager().beginTransaction().replace(R.id.layout, new BoughtTrekListFragment()).addToBackStack("").commit();
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_start_clean_drive) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_join_clean_drive) {
 
-        } else if (id == R.id.nav_share) {
+        }else if(id == R.id.nav_report_filth){
+
+        }else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
