@@ -1,10 +1,16 @@
 package trek.visdrotech.com.trek_o_hunt;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,13 +23,25 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.Manifest;
 
+import com.hypertrack.lib.HyperTrack;
+import com.hypertrack.lib.callbacks.HyperTrackCallback;
+import com.hypertrack.lib.models.ErrorResponse;
+import com.hypertrack.lib.models.SuccessResponse;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import static android.graphics.BitmapFactory.decodeFile;
+
 public class CreateNewTrek extends AppCompatActivity  implements View.OnClickListener{
     private Button start,pause,stop,upload;
     private FloatingActionButton fab;
     private static final int PICK_IMAGE = 1;
     private static final int REQUEST_CAMERA = 2;
     private static final int MY_PERMISSIONS_REQUEST = 12;
-    final String[] items = new String[]{"Camera", "Gallery", "Cancel"};
+    private Location currentLocation;
+    final String[] items = new String[]{"Camera", "Cancel"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +67,17 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
                 start.setEnabled(false);
                 pause.setEnabled(true);
                 stop.setEnabled(true);
+                HyperTrack.resumeTracking(new HyperTrackCallback() {
+                    @Override
+                    public void onSuccess(@NonNull SuccessResponse response) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull ErrorResponse errorResponse) {
+                        Log.d("HyperTrack", "Some error occured during resuming tracking");
+                    }
+                });
                 break;
             case R.id.but_pause :
                 Toast.makeText(this,"Location tracking paused !",Toast.LENGTH_SHORT).show();
@@ -56,6 +85,7 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
                 start.setEnabled(true);
                 pause.setEnabled(false);
                 stop.setEnabled(true);
+                HyperTrack.pauseTracking();
                 break;
             case R.id.but_stop :
                 start.setText("Start");
@@ -64,6 +94,7 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
                 pause.setEnabled(false);
                 stop.setEnabled(true);
                 upload.setVisibility(View.VISIBLE);
+                HyperTrack.pauseTracking();
                 break;
             case R.id.but_upload :
                 Toast.makeText(this,"Uploading your trek to the servers. Please wait",Toast.LENGTH_SHORT).show();
@@ -72,6 +103,7 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
                 pause.setEnabled(false);
                 stop.setEnabled(false);
                 upload.setVisibility(View.GONE);
+                HyperTrack.pauseTracking();
                 break;
             case R.id.fab :
                 getPermissions();
@@ -156,6 +188,62 @@ public class CreateNewTrek extends AppCompatActivity  implements View.OnClickLis
 
             // other 'case' lines to check for other
             // permissions this app might request
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+       if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK && null != data) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+            Uri tempUri = getImageUri(CreateNewTrek.this.getApplicationContext(), photo);
+
+            // CALL THIS METHOD TO GET THE ACTUAL PATH
+            File finalFile = new File(getRealPathFromURI(tempUri));
+            decodeFile(finalFile.toString());
+        } else {
+            Log.d("CreateTrek", "Unable to get image form camera or gallery");
+        }
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = CreateNewTrek.this.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public void decodeFile(String path) {
+        File f = new File(path);
+        if (f.exists()) {
+            Log.d("CreateNewTrek", "Sending file ");
+            HyperTrack.getCurrentLocation(new HyperTrackCallback() {
+                @Override
+                public void onSuccess(@NonNull SuccessResponse response) {
+                    currentLocation = (Location) response.getResponseObject();
+//                        Handle file with current location
+
+
+                }
+
+                @Override
+                public void onError(@NonNull ErrorResponse errorResponse) {
+
+                }
+            });
+            //Got the file here
+
+//                sendFile(f);
+        } else {
+            Toast.makeText(CreateNewTrek.this, "File error", Toast.LENGTH_SHORT).show();
         }
     }
 
