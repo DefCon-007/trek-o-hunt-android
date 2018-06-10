@@ -38,6 +38,7 @@ public class BoughtTrekListFragment extends Fragment{
         rvTopPicks.setLayoutManager(layoutManagerTop);
         rvTopPicks.setAdapter(new RecyclerAdapter(treks, getActivity()));
         TrekDescriptionFragment.boughtTrek = true;
+        TrekDescriptionFragment.createdTrek = false;
     }
 
     @Override

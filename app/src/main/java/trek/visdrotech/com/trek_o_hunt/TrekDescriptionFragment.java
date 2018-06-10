@@ -59,7 +59,7 @@ public class TrekDescriptionFragment extends Fragment{
         TextView tvBuy = (TextView)view.findViewById(R.id.bBuyNow);
         tvBuy.setText("Buy Now ( $"+trek.getPrice()+" )");
 
-        if(BoughtTrekListFragment.treks.contains(trek))
+        if(BoughtTrekListFragment.treks != null && BoughtTrekListFragment.treks.contains(trek) && !boughtTrek)
         {
             tvBuy.setText("Purchased!");
             tvBuy.setEnabled(false);
@@ -69,7 +69,7 @@ public class TrekDescriptionFragment extends Fragment{
         view.findViewById(R.id.bBuyNow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!boughtTrek) {
+                if(!boughtTrek && !createdTrek) {
                     Toast.makeText(getActivity(), "Purchased successfully!", Toast.LENGTH_SHORT).show();
                     if(BoughtTrekListFragment.treks == null) {
                         BoughtTrekListFragment.treks = new ArrayList<>();

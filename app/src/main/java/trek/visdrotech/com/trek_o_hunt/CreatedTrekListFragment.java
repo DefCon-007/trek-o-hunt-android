@@ -37,7 +37,8 @@ public class CreatedTrekListFragment extends Fragment{
         LinearLayoutManager layoutManagerTop = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rvTopPicks.setLayoutManager(layoutManagerTop);
         rvTopPicks.setAdapter(new RecyclerAdapter(treks, getActivity()));
-        TrekDescriptionFragment.boughtTrek = true;
+        TrekDescriptionFragment.boughtTrek = false;
+        TrekDescriptionFragment.createdTrek = true;
     }
 
     @Override

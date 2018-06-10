@@ -4,7 +4,7 @@
     android:layout_marginRight="6dp"
     android:layout_marginLeft="6dp"
     android:minHeight="300dp"
-    android:layout_height="match_parent"
+    android:layout_height="250dp"
     android:id="@+id/cv">
 
     <RelativeLayout

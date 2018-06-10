@@ -106,6 +106,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 TrekDescriptionFragment.trek = mDataset.get(position);
+                TrekDescriptionFragment.boughtTrek = false;
+                TrekDescriptionFragment.createdTrek = false;
                 ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.layout, new TrekDescriptionFragment()).addToBackStack("").commit();
             }
         });
