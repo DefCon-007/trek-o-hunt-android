@@ -1,6 +1,7 @@
 package trek.visdrotech.com.trek_o_hunt;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -214,8 +215,9 @@ public class HomePageActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_new_trek) {
+           Intent i = new Intent(this,CreateNewTrek.class);
+           startActivity(i);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

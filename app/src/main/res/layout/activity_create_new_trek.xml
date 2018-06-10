@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_vertical"
+
+    tools:context="trek.visdrotech.com.trek_o_hunt.CreateNewTrek">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical |center_horizontal"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/but_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Start"
+        />
+
+    <Button
+        android:id="@+id/but_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Pause"
+        />
+
+    <Button
+        android:id="@+id/but_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Stop"
+      />
+
+    <Button
+        android:id="@+id/but_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Data"
+        android:visibility="gone"
+        />
+</LinearLayout>
+<android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab"
+    android:src="@android:drawable/ic_menu_camera"
+    android:layout_gravity="end|bottom"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+</android.support.design.widget.CoordinatorLayout>

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/trek-o-hunt-android.iml" filepath="$PROJECT_DIR$/trek-o-hunt-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trekhunt-android.iml" filepath="$PROJECT_DIR$/trekhunt-android.iml" />
     </modules>
   </component>
 </project>
